@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+
+{% block content1 %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+
+{% if user.is_authenticated %}
+
+<div class="container-fluid">
+
+    <h3>Esittely</h3>
+    <h4>Tämä verkkosovellus on tehty Python-kielen Django-verkkosovelluskehyksellä ja se on osa
+        Verkkosovelluskehitys Python-ohjelmointikielen Django-sovelluskehyksellä -tutkimusraporttia. Sovellus
+        esittelee yleisluontoisesti tärkeimpiä verkkosovellusten ominaisuuksia ja toimintoja, joita ovat:
+    </h4>
+    <li>Käyttäjän rekisteröityminen</li>
+    <li>Käyttäjän sisäänkirjautuminen</li>
+    <li>Salasanan vaihto</li>
+    <li>Käyttäjän uloskirjautuminen</li>
+    <li>Datan lisääminen tietokantaan sekä datan lukeminen, päivittäminen ja poistaminen</li>
+
+    <hr>
+    <br>
+    <h3>Sovelluksen arkkitehtuuri</h3>
+
+    <p> Sivustolla on käytössä base.html -sivupohja, joka toimii koko sivuston pohjana. Muiden sivupohjien sisällöt
+        näytetään base.html sivupohjalla extends-, block-, ja
+        iclude-tagien avulla. Base.html sivupohja sisältää Bootstrap -sivunavigoinnin (NavBar) sekä kuvan tekstillä.
+        Näin sama design on käytössä sovelluksen kaikilla sivuilla.
+        Kaikki muu tällä sivulla(Kotisivu) näkyvä sisältö on "home.html" -sivupohjalla.
+        <br>
+        <br>
+        "Päivitä olio (uudella sivulla)" -linkki johtaa uudelle sivulle, jonka sisältö on edit.html-sivupohjalla.
+        "Päivitä olio (Modal - Bootstrap
+        popup-ikkunassa)"-linkki avaa pop-up-ikkunan, jonka sisältö on edit_popup.html-sivupohjalla.
+        </h4>
+
+        <br>
+        <hr>
+        <br>
+    <h3>Lista esimerkkiolioista</h3>
+
+    <p>Tässä esitetään lista esimerkkiolioista, jolle käyttäjä voi antaa 2 ominaisuutta. Olio saa id:n automaattisesti.
+        Käyttäjä voi listan katselun lisäksi lisätä listalle uuden olion, muokata jo lisättyä oliota tai poistaa olion
+        listalta.
+        <br>
+        <br>
+        Käyttäjän tulee olla kirjautuneenna voidakseen nähdä listan olioista ja muokata sitä.
+    </p>
+    <br>
+    <br>
+    <table class="table table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th>Olion järjestysnumero </th>
+                <th>Ominaisuus 1</th>
+                <th>Ominaisuus 2</th>
+            </tr>
+        </thead>
+
+        <body>
+            <tbody id="tableid">
+                {% for example in examples %}
+                <tr>
+                    <td>{{ example.attribute_1 }}</td>
+                    <td>{{ example.attribute_2 }}</td>
+                    <td> <a href="/edit/{{ example.id }}"><span class="glyphicon glyphicon-pencil"></span> Päivitä olio
+                            (uudella sivulla)</a></td>
+                    <td><a href="/delete/{{ example.id }}"><span class="glyphicon glyphicon-trash"></span> Poista</a>
+                    </td>
+                    <td> <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal{{example.id}}">
+                            Päivitä olio (Modal - Bootstrap popup-ikkunassa)</button></td>
+                    {% include 'crud_example/edit_popup.html' with id=example.id%}
+                </tr>
+
+                {% endfor %}
+</div>
+</div>
+</body>
+</tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}
+</div>
+
+
+
+{% block content2 %}
+
+{% if user.is_authenticated %}
+<div class="container-fluid">
+
+</div>
+<br>
+<br>
+<div class="container-fluid">
+
+    <h3>Lisää esimerkkiolio listalle</h3>
+    <h4>Anna oliolle kaksi ominaisuutta: Oliot lisätään SQLite-tietokantaan, jonka konfigurointi käydään läpi
+        tutkimusraportissa. </h4>
+
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button type="submit" class="btn btn-success"> Tallenna</button>
+    </form>
+    <br>
+
+    {% endif %}
+    {% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Kirjautuminen {% endblock %}
+
+{% block content1 %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+    <h4>Kirjaudu sisään tästä:</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button type="login" class="btn btn-primary" > Lähetä </button>
+        <a href="{% url 'password_reset' %}">Unohditko salasanasi?</a>
+    </form> 
+
+    {% endblock %}
+
+    
+
+   
